@@ -1067,3 +1067,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// Expose navigation functions globally for HTML onclick handlers
+window.showView = showView;
+window.enterApp = enterApp;
+window.handleRegistrationSubmit = handleRegistrationSubmit;
+window.handlePreferencesSubmit = handlePreferencesSubmit;
+window.openDatabaseViewModal = openDatabaseViewModal;
+window.closeDatabaseViewModal = closeDatabaseViewModal;
+

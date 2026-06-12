@@ -1,0 +1,9 @@
+{
+  "appId": "com.roomsync.ai",
+  "appName": "RoomSync AI",
+  "webDir": "dist",
+  "server": {
+    "url": "https://room-sync-ai.vercel.app/",
+    "cleartext": true
+  }
+}
