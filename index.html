@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RoomSync AI – Smart Hostel Roommate Matcher</title>
+  <meta name="description" content="Futuristic AI-powered roommate matching platform for modern student hostels and communities. Find roommates based on habits, study schedules, and routines.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Background Particle Network & Glowing Blobs -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="bg-glow-blobs">
+    <div class="glow-blob blob-1"></div>
+    <div class="glow-blob blob-2"></div>
+    <div class="glow-blob blob-3"></div>
+  </div>
+
+  <!-- Mobile Menu Toggle Button -->
+  <button class="menu-toggle" id="btn-menu-toggle" aria-label="Toggle Navigation Menu">
+    <svg class="icon" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+
+  <!-- App Wrapper Grid -->
+  <div class="app-container landing-active" id="main-app-container">
+    
+    <!-- Sidebar Navigation (Hidden on Landing Page, visible when entering app) -->
+    <sidebar id="app-sidebar">
+      <div>
+        <div class="sidebar-logo">
+          <div class="logo-icon">
+            <svg class="icon" viewBox="0 0 24 24" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
+          <div style="display: flex; flex-direction: column;">
+            <span class="logo-text">RoomSync AI</span>
+            <span id="db-status-badge" style="font-size: 0.65rem; color: var(--cyan); margin-top: 2px; text-shadow: 0 0 5px var(--cyan-glow); font-weight: 700; letter-spacing: 0.5px;">CONNECTING...</span>
+          </div>
+        </div>
+        
+        <ul class="nav-menu">
+          <li class="nav-item" id="nav-landing">
+            <a href="#" onclick="showView('landing')">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              Home Landing
+            </a>
+          </li>
+          <li class="nav-item" id="nav-register">
+            <a href="#" onclick="showView('register')">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" y1="8" x2="19" y2="14"></line><line x1="22" y1="11" x2="16" y2="11"></line></svg>
+              Student Portal
+            </a>
+          </li>
+          <li class="nav-item" id="nav-preferences">
+            <a href="#" onclick="showView('preferences')">
+              <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              My Preferences
+            </a>
+          </li>
+          <li class="nav-item" id="nav-results">
+            <a href="#" onclick="showView('results')">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              Match Analysis
+            </a>
+          </li>
+          <li class="nav-item" id="nav-admin">
+            <a href="#" onclick="showView('admin')">
+              <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              Admin Board
+            </a>
+          </li>
+          <li class="nav-item" id="nav-database">
+            <a href="#" onclick="showView('database')">
+              <svg class="icon" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"></path></svg>
+              System Database
+            </a>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Current Student Avatar / Logout button -->
+      <div class="sidebar-user" id="sidebar-profile-widget" style="display: none;">
+        <div class="user-avatar" id="sidebar-user-avatar">??</div>
+        <div class="user-info">
+          <span class="user-name" id="sidebar-user-name">Guest Student</span>
+          <span class="user-role" id="sidebar-user-id">Not Registered</span>
+        </div>
+      </div>
+    </sidebar>
+
+    <!-- Main Content Frame -->
+    <main>
+      <!-- Connection Warning Banner (Shown in local cache mode) -->
+      <div id="db-warning-banner" class="db-warning-banner" style="display: none;">
+        <span>⚠️ <strong>Running in LOCAL CACHE mode:</strong> Your data is saved only in the browser cache. To connect to the MySQL database and store data in the backend, please access the site through the XAMPP host at <a href="http://localhost/roomsync-ai/" style="color: var(--cyan); text-decoration: underline; font-weight: 600;">http://localhost/roomsync-ai/</a>.</span>
+      </div>
+      
+      <!-- ========================================================
+           1. LANDING PAGE SECTION
+           ======================================================== -->
+      <section id="view-landing" class="view-section active">
+        <div class="landing-view">
+          
+          <!-- Landing Top Navbar -->
+          <div class="header-nav">
+            <div class="sidebar-logo" style="margin-bottom:0">
+              <div class="logo-icon">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              </div>
+              <span class="logo-text">RoomSync AI</span>
+            </div>
+            <div>
+              <button class="btn btn-secondary" onclick="enterApp('admin')" id="btn-land-demo">View Demo</button>
+              <button class="btn btn-primary" onclick="enterApp('register')" id="btn-land-start" style="margin-left: 10px;">Get Started</button>
+            </div>
+          </div>
+
+          <!-- Hero Section -->
+          <div class="hero-section">
+            <div class="hero-content">
+              <h1>Find the Perfect Roommate. <br><span class="text-neon-cyan">Not Just a Random One.</span></h1>
+              <p>Hostel living redefined. Our AI compatibility engine analyzes lifestyle, sleep cycles, hobbies, and social frequencies to auto-allocate roommate compatibility with unmatched precision.</p>
+              <div class="hero-actions">
+                <button class="btn btn-primary" onclick="enterApp('register')" id="btn-hero-register">Get Match Profile</button>
+                <button class="btn btn-secondary" onclick="enterApp('admin')" id="btn-hero-admin">Admin Analytics</button>
+              </div>
+            </div>
+            
+            <!-- Graphic Section: Floating Nodes and Connected Lines in SVG -->
+            <div class="hero-graphic">
+              <div class="network-illustration">
+                <svg class="illustration-svg" viewBox="0 0 400 400">
+                  <defs>
+                    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#6D5DFC" />
+                      <stop offset="100%" stop-color="#8B5CF6" />
+                    </linearGradient>
+                    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#00E5FF" />
+                      <stop offset="100%" stop-color="#00B4D8" />
+                    </linearGradient>
+                    <filter id="neonPurpleGlow" x="-50%" y="-50%" width="200%" height="200%">
+                      <feGaussianBlur stdDeviation="6" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                    <filter id="neonCyanGlow" x="-50%" y="-50%" width="200%" height="200%">
+                      <feGaussianBlur stdDeviation="6" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  <!-- Connection Relationship lines -->
+                  <path d="M80,180 L200,100 M200,100 L320,180 M320,180 L260,280 M260,280 L140,280 M140,280 L80,180 M200,100 L200,220 M80,180 L200,220 M320,180 L200,220 M140,280 L200,220 M260,280 L200,220" 
+                        stroke="rgba(0, 229, 255, 0.2)" stroke-width="1.5" stroke-dasharray="4,4" fill="none" />
+                  
+                  <path d="M80,180 L200,100 M200,100 L320,180 M320,180 L260,280 M140,280 L80,180" 
+                        stroke="var(--primary)" stroke-width="2.5" fill="none" opacity="0.6" />
+
+                  <!-- Central compatibility score ring -->
+                  <circle cx="200" cy="220" r="45" fill="rgba(11, 16, 32, 0.9)" stroke="url(#cyanGrad)" stroke-width="2" filter="url(#neonCyanGlow)" />
+                  <text x="200" y="215" fill="#00E5FF" font-family="'Outfit', sans-serif" font-size="18" font-weight="800" text-anchor="middle" filter="url(#neonCyanGlow)">96%</text>
+                  <text x="200" y="232" fill="#FFF" font-family="'Inter', sans-serif" font-size="9" font-weight="600" letter-spacing="1" text-anchor="middle">MATCH INDEX</text>
+                  
+                  <!-- Student nodes -->
+                  <!-- Node 1 -->
+                  <g class="pulse-node">
+                    <circle cx="200" cy="100" r="22" fill="url(#purpleGrad)" filter="url(#neonPurpleGlow)" />
+                    <text x="200" y="105" fill="#FFF" font-family="'Outfit', sans-serif" font-weight="bold" font-size="12" text-anchor="middle">AS</text>
+                  </g>
+                  <!-- Node 2 -->
+                  <g class="pulse-node-purple">
+                    <circle cx="320" cy="180" r="22" fill="url(#cyanGrad)" filter="url(#neonCyanGlow)" />
+                    <text x="320" y="185" fill="#080B16" font-family="'Outfit', sans-serif" font-weight="bold" font-size="12" text-anchor="middle">KV</text>
+                  </g>
+                  <!-- Node 3 -->
+                  <g class="pulse-node">
+                    <circle cx="260" cy="280" r="22" fill="url(#purpleGrad)" filter="url(#neonPurpleGlow)" />
+                    <text x="260" y="285" fill="#FFF" font-family="'Outfit', sans-serif" font-weight="bold" font-size="12" text-anchor="middle">RN</text>
+                  </g>
+                  <!-- Node 4 -->
+                  <g class="pulse-node-purple">
+                    <circle cx="140" cy="280" r="22" fill="url(#cyanGrad)" filter="url(#neonCyanGlow)" />
+                    <text x="140" y="285" fill="#080B16" font-family="'Outfit', sans-serif" font-weight="bold" font-size="12" text-anchor="middle">ML</text>
+                  </g>
+                  <!-- Node 5 -->
+                  <g class="pulse-node">
+                    <circle cx="80" cy="180" r="22" fill="url(#purpleGrad)" filter="url(#neonPurpleGlow)" />
+                    <text x="80" y="185" fill="#FFF" font-family="'Outfit', sans-serif" font-weight="bold" font-size="12" text-anchor="middle">SP</text>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature Highlights Section -->
+          <div class="features-title-wrap">
+            <h2>Powered by Intelligent Matching</h2>
+            <p>We analyze the fine lines of roommate chemistry to guarantee an optimal room environment.</p>
+          </div>
+          
+          <div class="features-grid">
+            <!-- Card 1 -->
+            <div class="glass-panel glass-panel-hover feature-card">
+              <div class="feature-icon-wrapper">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </div>
+              <h3>Smart Compatibility Matching</h3>
+              <p>Uses weighted matrix math comparing students' behaviors, study times, and cleanliness preferences for a reliable score.</p>
+            </div>
+            <!-- Card 2 -->
+            <div class="glass-panel glass-panel-hover feature-card">
+              <div class="feature-icon-wrapper">
+                <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+              <h3>Lifestyle Analysis</h3>
+              <p>Matches night-owls with night-owls and early risers with early risers to protect sleep schedules.</p>
+            </div>
+            <!-- Card 3 -->
+            <div class="glass-panel glass-panel-hover feature-card">
+              <div class="feature-icon-wrapper">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 2 2 4 0 5.5-4.5 10-10 10z"></path><path d="M19 21v-2a4 4 0 0 0-3-3.87"></path></svg>
+              </div>
+              <h3>Cleanliness Assessment</h3>
+              <p>Maintains room harmony by grouping students with similar standards for shared spaces and chore distributions.</p>
+            </div>
+            <!-- Card 4 -->
+            <div class="glass-panel glass-panel-hover feature-card">
+              <div class="feature-icon-wrapper">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+              </div>
+              <h3>Study Habit Matching</h3>
+              <p>Aligns preferences for silent library environments versus collaborative group brainstorming in rooms.</p>
+            </div>
+            <!-- Card 5 -->
+            <div class="glass-panel glass-panel-hover feature-card">
+              <div class="feature-icon-wrapper">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+              </div>
+              <h3>Personality Insights</h3>
+              <p>Ensures introverts find relaxing quiet layouts, while extroverts are grouped in thriving hubs.</p>
+            </div>
+            <!-- Card 6 -->
+            <div class="glass-panel glass-panel-hover feature-card">
+              <div class="feature-icon-wrapper">
+                <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line></svg>
+              </div>
+              <h3>Automated Room Allocation</h3>
+              <p>Suggests strategic room coordinates (Quiet Zones vs Social Zones) based on combined room chemistry maps.</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ========================================================
+           2. REGISTRATION FORM SECTION
+           ======================================================== -->
+      <section id="view-register" class="view-section">
+        <div class="glass-panel form-view-container">
+          <div class="view-header">
+            <h2>Student Registration</h2>
+            <p>Step 1 of 2: Let's set up your foundational student profile details.</p>
+          </div>
+          
+          <form id="form-student-register" onsubmit="handleRegistrationSubmit(event)">
+            <div class="form-group-grid">
+              
+              <div class="form-field form-group-full">
+                <input type="text" id="reg-name" class="form-input" placeholder=" " required autocomplete="name">
+                <label for="reg-name">Full Name</label>
+              </div>
+
+              <div class="form-field">
+                <input type="text" id="reg-student-id" class="form-input" placeholder=" " required autocomplete="off">
+                <label for="reg-student-id">Student ID / Roll No</label>
+              </div>
+
+              <div class="form-field form-field-select">
+                <select id="reg-gender" class="form-input form-select" placeholder=" " required>
+                  <option value="" disabled selected hidden></option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+                <label for="reg-gender">Gender</label>
+              </div>
+
+              <div class="form-field">
+                <input type="text" id="reg-branch" class="form-input" placeholder=" " required autocomplete="off">
+                <label for="reg-branch">Branch / Department</label>
+              </div>
+
+              <div class="form-field form-field-select">
+                <select id="reg-year" class="form-input form-select" required>
+                  <option value="" disabled selected hidden></option>
+                  <option value="1st Year">1st Year</option>
+                  <option value="2nd Year">2nd Year</option>
+                  <option value="3rd Year">3rd Year</option>
+                  <option value="4th Year">4th Year</option>
+                </select>
+                <label for="reg-year">Year of Study</label>
+              </div>
+
+              <div class="form-field form-group-full">
+                <input type="email" id="reg-email" class="form-input" placeholder=" " required autocomplete="email">
+                <label for="reg-email">Email Address</label>
+              </div>
+
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 15px; margin-top: 30px;">
+              <button type="button" class="btn btn-secondary" onclick="enterApp('landing')">Cancel</button>
+              <button type="submit" class="btn btn-primary" id="btn-submit-register">
+                Continue to Preferences
+                <svg class="icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           3. PREFERENCE SELECTION SECTION
+           ======================================================== -->
+      <section id="view-preferences" class="view-section">
+        <div class="view-header">
+          <h2>Analyze Lifestyle & Preferences</h2>
+          <p>Step 2 of 2: Configure your habits so our AI matcher engine can find the most compatible partners.</p>
+        </div>
+
+        <form id="form-student-preferences" onsubmit="handlePreferencesSubmit(event)">
+          <div class="pref-grid">
+            
+            <!-- Category 1: Sleep Schedule -->
+            <div class="glass-panel pref-card">
+              <h3>
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                Sleep Schedule
+              </h3>
+              <div class="option-group">
+                <label class="option-label">
+                  <input type="radio" name="pref-sleep" value="Early Sleeper" class="option-input" checked>
+                  <span class="option-label-content">Early Sleeper (Before 11 PM)</span>
+                  <span class="option-radio-dot"></span>
+                </label>
+                <label class="option-label">
+                  <input type="radio" name="pref-sleep" value="Late Sleeper" class="option-input">
+                  <span class="option-label-content">Late Sleeper (After Midnight)</span>
+                  <span class="option-radio-dot"></span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Category 2: Study Style -->
+            <div class="glass-panel pref-card">
+              <h3>
+                <svg class="icon" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                Study Style
+              </h3>
+              <div class="option-group">
+                <label class="option-label">
+                  <input type="radio" name="pref-study" value="Silent Study" class="option-input" checked>
+                  <span class="option-label-content">Silent Study (Total silence)</span>
+                  <span class="option-radio-dot"></span>
+                </label>
+                <label class="option-label">
+                  <input type="radio" name="pref-study" value="Group Study" class="option-input">
+                  <span class="option-label-content">Group Study (Dynamic chats)</span>
+                  <span class="option-radio-dot"></span>
+                </label>
+                <label class="option-label">
+                  <input type="radio" name="pref-study" value="Flexible" class="option-input">
+                  <span class="option-label-content">Flexible (Varies day to day)</span>
+                  <span class="option-radio-dot"></span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Category 3: Cleanliness -->
+            <div class="glass-panel pref-card">
+              <h3>
+                <svg class="icon" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                Cleanliness
+              </h3>
+              <div class="option-group">
+                <label class="option-label">
+                  <input type="radio" name="pref-clean" value="Very Clean" class="option-input" checked>
+                  <span class="option-label-content">Very Clean (Spotless)</span>
+                  <span class="option-radio-dot"></span>
+                </label>
+                <label class="option-label">
+                  <input type="radio" name="pref-clean" value="Average" class="option-input">
+                  <span class="option-label-content">Average (Moderately neat)</span>
+                  <span class="option-radio-dot"></span>
+                </label>
+                <label class="option-label">
+                  <input type="radio" name="pref-clean" value="Relaxed" class="option-input">
+                  <span class="option-label-content">Relaxed (Chilled out layout)</span>
+                  <span class="option-radio-dot"></span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Category 4: Social Preference -->
+            <div class="glass-panel pref-card">
+              <h3>
+                <svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                Social Preference
+              </h3>
+              <div class="option-group">
+                <label class="option-label">
+                  <input type="radio" name="pref-social" value="Introvert" class="option-input" checked>
+                  <span class="option-label-content">Introvert (Quiet downtime)</span>
+                  <span class="option-radio-dot"></span>
+                </label>
+                <label class="option-label">
+                  <input type="radio" name="pref-social" value="Balanced" class="option-input">
+                  <span class="option-label-content">Balanced (Enjoy both worlds)</span>
+                  <span class="option-radio-dot"></span>
+                </label>
+                <label class="option-label">
+                  <input type="radio" name="pref-social" value="Extrovert" class="option-input">
+                  <span class="option-label-content">Extrovert (Highly outgoing)</span>
+                  <span class="option-radio-dot"></span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Category 5: Room Environment -->
+            <div class="glass-panel pref-card">
+              <h3>
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                Room Environment
+              </h3>
+              <div class="option-group">
+                <label class="option-label">
+                  <input type="radio" name="pref-environment" value="Quiet" class="option-input" checked>
+                  <span class="option-label-content">Quiet (Silent sanctuary)</span>
+                  <span class="option-radio-dot"></span>
+                </label>
+                <label class="option-label">
+                  <input type="radio" name="pref-environment" value="Moderate" class="option-input">
+                  <span class="option-label-content">Moderate (Standard ambient noise)</span>
+                  <span class="option-radio-dot"></span>
+                </label>
+                <label class="option-label">
+                  <input type="radio" name="pref-environment" value="Social" class="option-input">
+                  <span class="option-label-content">Social (Guests & chats welcome)</span>
+                  <span class="option-radio-dot"></span>
+                </label>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Dynamic Hobbies Chips Section -->
+          <div class="glass-panel pref-card hobbies-wrap">
+            <h3>
+              <svg class="icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+              Select Hobbies & Interests (Choose at least 3)
+            </h3>
+            <div class="chips-grid" id="hobbies-chips-wrapper">
+              <!-- Hobbies will be generated here -->
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 15px; margin-top: 30px;">
+            <button type="button" class="btn btn-secondary" onclick="showView('register')">Back</button>
+            <button type="submit" class="btn btn-primary" id="btn-submit-preferences">
+              Calculate Compatibility
+              <svg class="icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ========================================================
+           4. COMPATIBILITY RESULTS VIEW
+           ======================================================== -->
+      <section id="view-results" class="view-section">
+        <div class="view-header">
+          <h2>Roommate Match Analysis</h2>
+          <p>Here are your match metrics generated dynamically from our AI allocation records.</p>
+        </div>
+
+        <div class="results-dashboard">
+          
+          <!-- Left Column (User Profile & Circular Ring) -->
+          <div class="results-left">
+            
+            <div class="glass-panel profile-card">
+              <div class="avatar-large" id="res-user-avatar">??</div>
+              <h3 id="res-user-name">Your Name</h3>
+              <span class="profile-tag" id="res-user-id">Student ID</span>
+              <div class="profile-details-grid">
+                <div class="detail-item">
+                  <span>BRANCH</span>
+                  <p id="res-user-branch">Computer Science</p>
+                </div>
+                <div class="detail-item">
+                  <span>YEAR</span>
+                  <p id="res-user-year">2nd Year</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Score Circle Panel -->
+            <div class="glass-panel score-circle-panel">
+              <h3 style="margin-bottom: 20px;">Compatibility Score</h3>
+              <div class="score-ring-wrap">
+                <svg class="score-svg" width="160" height="160" viewBox="0 0 160 160">
+                  <circle class="score-bg-ring" cx="80" cy="80" r="70" />
+                  <circle class="score-fill-ring" id="res-score-ring" cx="80" cy="80" r="70" />
+                </svg>
+                <div class="score-text-wrap">
+                  <span class="score-number" id="res-score-number">--</span>
+                  <span class="score-pct">%</span>
+                  <span class="score-lbl">MATCH</span>
+                </div>
+              </div>
+              <div class="profile-tag" id="res-match-verdict" style="background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.3); color: var(--emerald); font-size: 0.9rem; padding: 6px 18px;">
+                Excellent Match
+              </div>
+            </div>
+
+            <!-- Radar Chart Panel -->
+            <div class="glass-panel radar-chart-panel">
+              <h3 style="margin-bottom: 15px;">Personality Mapping</h3>
+              <div id="radar-container">
+                <!-- SVG Radar Chart gets loaded dynamically here -->
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column (Match Breakdown details) -->
+          <div class="results-right">
+            
+            <div class="glass-panel match-details-panel">
+              <div class="match-details-header">
+                <div>
+                  <span style="font-size:0.8rem; color:var(--text-muted);">TOP RECOMMENDED ROOMMATE</span>
+                  <h3 id="res-match-name" style="font-size:1.6rem; margin-top:2px;">Roommate Name</h3>
+                </div>
+                <div class="matching-with-card">
+                  <div class="avatar-medium" id="res-match-avatar">??</div>
+                </div>
+              </div>
+
+              <!-- Matching breakdowns -->
+              <div class="breakdown-bars">
+                <!-- Bar 1 -->
+                <div class="bar-item-wrap">
+                  <div class="bar-header">
+                    <span>Sleep Cycle Compatibility</span>
+                    <span id="bar-val-sleep">0%</span>
+                  </div>
+                  <div class="bar-track">
+                    <div class="bar-fill fill-purple" id="bar-fill-sleep"></div>
+                  </div>
+                </div>
+                <!-- Bar 2 -->
+                <div class="bar-item-wrap">
+                  <div class="bar-header">
+                    <span>Cleanliness Alignment</span>
+                    <span id="bar-val-clean">0%</span>
+                  </div>
+                  <div class="bar-track">
+                    <div class="bar-fill fill-cyan" id="bar-fill-clean"></div>
+                  </div>
+                </div>
+                <!-- Bar 3 -->
+                <div class="bar-item-wrap">
+                  <div class="bar-header">
+                    <span>Study Preferences</span>
+                    <span id="bar-val-study">0%</span>
+                  </div>
+                  <div class="bar-track">
+                    <div class="bar-fill fill-emerald" id="bar-fill-study"></div>
+                  </div>
+                </div>
+                <!-- Bar 4 -->
+                <div class="bar-item-wrap">
+                  <div class="bar-header">
+                    <span>Social Frequency</span>
+                    <span id="bar-val-social">0%</span>
+                  </div>
+                  <div class="bar-track">
+                    <div class="bar-fill fill-gold" id="bar-fill-social"></div>
+                  </div>
+                </div>
+                <!-- Bar 5 -->
+                <div class="bar-item-wrap">
+                  <div class="bar-header">
+                    <span>Shared Interests / Hobbies</span>
+                    <span id="bar-val-hobby">0%</span>
+                  </div>
+                  <div class="bar-track">
+                    <div class="bar-fill fill-pink" id="bar-fill-hobby"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- AI Insights card -->
+              <div class="glass-panel insight-card" id="res-insight-card">
+                <h4>
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                  RoomSync AI Intelligence Insight
+                </h4>
+                <p id="res-insight-text">Comparing lifestyles...</p>
+              </div>
+
+              <!-- Conflict Prediction warning card -->
+              <div class="glass-panel conflict-warning-card" id="res-conflict-card" style="display: none;">
+                <h4>
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                  Potential Conflict Alert
+                </h4>
+                <p id="res-conflict-text">No major conflicts predicted.</p>
+              </div>
+
+              <!-- Room allocation suggestion -->
+              <div class="glass-panel room-suggestion-card" id="res-room-card">
+                <h4>
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                  Smart Room Suggestions
+                </h4>
+                <p id="res-room-text">Quiet Zone: Wing A, Floor 2. Ideal for your study layout.</p>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ========================================================
+           5. ADMIN ANALYTICS DASHBOARD
+           ======================================================== -->
+      <section id="view-admin" class="view-section">
+        <div class="view-header">
+          <h2>Hostel Administration Board</h2>
+          <p>Real-time analytics dashboard monitoring registrations, average scores, and allocation zones.</p>
+        </div>
+
+        <!-- Metric cards row -->
+        <div class="admin-stats-grid">
+          <!-- Card 1 -->
+          <div class="glass-panel stat-widget">
+            <div class="stat-widget-info">
+              <span>Total Registrations</span>
+              <h3 id="stat-total-students">--</h3>
+            </div>
+            <div class="stat-icon-wrapper stat-icon-primary">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="glass-panel stat-widget">
+            <div class="stat-widget-info">
+              <span>Matched Pairs</span>
+              <h3 id="stat-total-matches">--</h3>
+            </div>
+            <div class="stat-icon-wrapper stat-icon-cyan">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="glass-panel stat-widget">
+            <div class="stat-widget-info">
+              <span>Rooms Allocated</span>
+              <h3 id="stat-allocated-rooms">--</h3>
+            </div>
+            <div class="stat-icon-wrapper stat-icon-emerald">
+              <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line></svg>
+            </div>
+          </div>
+          <!-- Card 4 -->
+          <div class="glass-panel stat-widget">
+            <div class="stat-widget-info">
+              <span>Avg Match Score</span>
+              <h3 id="stat-avg-score">--</h3>
+            </div>
+            <div class="stat-icon-wrapper stat-icon-gold">
+              <svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Custom SVG graphs panel -->
+        <div class="admin-charts-grid">
+          
+          <!-- Chart 1: Score Distribution Bar Chart -->
+          <div class="glass-panel chart-card">
+            <h3>Compatibility Score Distribution</h3>
+            <div class="chart-container" id="score-dist-chart-container">
+              <!-- Custom SVG injected here -->
+            </div>
+          </div>
+
+          <!-- Chart 2: Cleanliness Preference Split -->
+          <div class="glass-panel chart-card">
+            <h3>Cleanliness Preference Split</h3>
+            <div class="chart-container" id="clean-pie-chart-container">
+              <!-- Custom SVG injected here -->
+            </div>
+          </div>
+
+          <!-- Chart 3: Popular Hobbies Horizontal bars -->
+          <div class="glass-panel chart-card">
+            <h3>Interest Frequency distribution</h3>
+            <div class="chart-container" id="hobbies-chart-container">
+              <!-- Custom SVG injected here -->
+            </div>
+          </div>
+
+          <!-- Chart 4: Sleep Schedule Ratio -->
+          <div class="glass-panel chart-card">
+            <h3>Sleep Cycle Ratios</h3>
+            <div class="chart-container" id="sleep-chart-container">
+              <!-- Custom SVG injected here -->
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ========================================================
+           6. DATABASE ERD VISUALIZER SECTION
+           ======================================================== -->
+      <section id="view-database" class="view-section">
+        <div class="view-header">
+          <h2>Relational Database Map</h2>
+          <p>Interactive schema chart of the RoomSync AI local tables. Click any entity to inspect actual table data.</p>
+        </div>
+
+        <div class="db-visual-container">
+          
+          <div class="glass-panel erd-panel" id="erd-canvas-panel">
+            
+            <!-- Connection Lines Layout SVG -->
+            <svg class="erd-canvas-svg" id="erd-lines-svg">
+              <!-- Lines generated dynamically on resize / layout -->
+            </svg>
+
+            <div class="erd-grid-layer">
+              
+              <!-- Table 1: STUDENTS -->
+              <div class="erd-table" onclick="openDatabaseViewModal('students')" id="erd-table-students">
+                <div class="erd-table-header">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                  STUDENTS
+                </div>
+                <div class="erd-table-row"><span class="key-pk">PK</span> <span>student_id [VARCHAR]</span></div>
+                <div class="erd-table-row"><span></span> <span>name [VARCHAR]</span></div>
+                <div class="erd-table-row"><span></span> <span>gender [VARCHAR]</span></div>
+                <div class="erd-table-row"><span></span> <span>branch [VARCHAR]</span></div>
+                <div class="erd-table-row"><span></span> <span>year [VARCHAR]</span></div>
+                <div class="erd-table-row"><span></span> <span>email [VARCHAR]</span></div>
+              </div>
+
+              <!-- Table 2: PREFERENCES -->
+              <div class="erd-table" onclick="openDatabaseViewModal('preferences')" id="erd-table-preferences">
+                <div class="erd-table-header">
+                  <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4L9 19"></path></svg>
+                  PREFERENCES
+                </div>
+                <div class="erd-table-row"><span class="key-pk">PK</span> <span>pref_id [INT]</span></div>
+                <div class="erd-table-row"><span class="key-fk">FK</span> <span>student_id [VARCHAR]</span></div>
+                <div class="erd-table-row"><span></span> <span>sleep_schedule [VARCHAR]</span></div>
+                <div class="erd-table-row"><span></span> <span>study_style [VARCHAR]</span></div>
+                <div class="erd-table-row"><span></span> <span>cleanliness [VARCHAR]</span></div>
+                <div class="erd-table-row"><span></span> <span>social_pref [VARCHAR]</span></div>
+                <div class="erd-table-row"><span></span> <span>room_environment [VARCHAR]</span></div>
+              </div>
+
+              <!-- Table 3: HOBBIES -->
+              <div class="erd-table" onclick="openDatabaseViewModal('hobbies')" id="erd-table-hobbies">
+                <div class="erd-table-header">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"></path></svg>
+                  HOBBIES
+                </div>
+                <div class="erd-table-row"><span class="key-pk">PK</span> <span>hobby_id [INT]</span></div>
+                <div class="erd-table-row"><span class="key-fk">FK</span> <span>student_id [VARCHAR]</span></div>
+                <div class="erd-table-row"><span></span> <span>hobby_name [VARCHAR]</span></div>
+              </div>
+
+              <!-- Table 4: MATCHES -->
+              <div class="erd-table" onclick="openDatabaseViewModal('matches')" id="erd-table-matches">
+                <div class="erd-table-header">
+                  <svg class="icon" viewBox="0 0 24 24"><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                  MATCHES
+                </div>
+                <div class="erd-table-row"><span class="key-pk">PK</span> <span>match_id [INT]</span></div>
+                <div class="erd-table-row"><span class="key-fk">FK</span> <span>student_a_id [VARCHAR]</span></div>
+                <div class="erd-table-row"><span class="key-fk">FK</span> <span>student_b_id [VARCHAR]</span></div>
+                <div class="erd-table-row"><span></span> <span>compatibility_score [INT]</span></div>
+                <div class="erd-table-row"><span></span> <span>match_date [DATETIME]</span></div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Database Inspector Modal Popup -->
+  <div class="modal-overlay" id="db-view-modal">
+    <div class="glass-panel modal-content">
+      <div class="modal-header">
+        <h3 id="modal-table-title">Database Records</h3>
+        <button class="modal-close" onclick="closeDatabaseViewModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <pre class="json-pretty" id="modal-json-pre">Loading records...</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic chart hover tooltip -->
+  <div class="chart-tooltip" id="global-chart-tooltip">Tooltip</div>
+
+  <!-- Loading scripts -->
+  <script src="js/particles.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
