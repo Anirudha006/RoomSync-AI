@@ -7,7 +7,7 @@
 // ==========================================
 // 1. CONFIGURATION & STATE INITIALIZATION
 // ==========================================
-const API_URL = 'api.php';
+const API_URL = 'api/api.php';
 const STORAGE_KEYS = {
   STUDENTS: 'roomsync_students',
   PREFERENCES: 'roomsync_preferences',
