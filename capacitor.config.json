@@ -3,7 +3,7 @@
   "appName": "RoomSync AI",
   "webDir": "dist",
   "server": {
-    "url": "https://room-sync-ai.vercel.app/",
+    "url": "https://room-sync-ai-5m66.vercel.app/",
     "cleartext": true
   }
 }
