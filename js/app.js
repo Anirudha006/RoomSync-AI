@@ -1066,6 +1066,73 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // Programmatic event listeners for sidebar navigation links
+  const navItems = {
+    'nav-landing': 'landing',
+    'nav-register': 'register',
+    'nav-preferences': 'preferences',
+    'nav-results': 'results',
+    'nav-admin': 'admin',
+    'nav-database': 'database'
+  };
+  Object.keys(navItems).forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      const link = el.querySelector('a');
+      if (link) {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          showView(navItems[id]);
+        });
+      }
+    }
+  });
+
+  // Programmatic event listeners for Hero / Landing buttons
+  const btnDemo = document.getElementById('btn-land-demo');
+  if (btnDemo) {
+    btnDemo.addEventListener('click', () => enterApp('admin'));
+  }
+  const btnStart = document.getElementById('btn-land-start');
+  if (btnStart) {
+    btnStart.addEventListener('click', () => enterApp('register'));
+  }
+  const btnHeroReg = document.getElementById('btn-hero-register');
+  if (btnHeroReg) {
+    btnHeroReg.addEventListener('click', () => enterApp('register'));
+  }
+  const btnHeroAdmin = document.getElementById('btn-hero-admin');
+  if (btnHeroAdmin) {
+    btnHeroAdmin.addEventListener('click', () => enterApp('admin'));
+  }
+
+  // Programmatic event listener for Registration Cancel button
+  const btnRegCancel = document.getElementById('btn-register-cancel');
+  if (btnRegCancel) {
+    btnRegCancel.addEventListener('click', () => enterApp('landing'));
+  }
+
+  // Programmatic event listener for Preferences Back button
+  const btnPrefBack = document.getElementById('btn-preferences-back');
+  if (btnPrefBack) {
+    btnPrefBack.addEventListener('click', () => showView('register'));
+  }
+
+  // Programmatic event listeners for ERD tables
+  const erdTables = ['students', 'preferences', 'hobbies', 'matches'];
+  erdTables.forEach(table => {
+    const el = document.getElementById(`erd-table-${table}`);
+    if (el) {
+      el.addEventListener('click', () => openDatabaseViewModal(table));
+    }
+  });
+
+  // Programmatic event listener for Modal Close button
+  const btnModalClose = document.getElementById('btn-modal-close');
+  if (btnModalClose) {
+    btnModalClose.addEventListener('click', () => closeDatabaseViewModal());
+  }
 });
 
 // Expose navigation functions globally for HTML onclick handlers
