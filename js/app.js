@@ -1153,6 +1153,18 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnModalClose) {
     btnModalClose.addEventListener('click', () => closeDatabaseViewModal());
   }
+
+  // Deep linking: Route to hash view on page load & hash change
+  const routeByHash = () => {
+    const hash = window.location.hash.substring(1);
+    if (hash && ['landing', 'register', 'preferences', 'results', 'admin', 'database'].includes(hash)) {
+      console.log(`[RoomSync AI] Deep linking to view: ${hash}`);
+      enterApp(hash);
+    }
+  };
+  
+  routeByHash();
+  window.addEventListener('hashchange', routeByHash);
 });
 
 // Expose navigation functions globally for HTML onclick handlers
