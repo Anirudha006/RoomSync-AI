@@ -359,13 +359,18 @@ function executeClientSideMatch(userId) {
 // 3. SPA NAVIGATION & DRAWER LAYOUTS
 // ==========================================
 function showView(viewId) {
+  console.log(`[RoomSync AI] Navigating to view: ${viewId}`);
   const container = document.getElementById('main-app-container');
   document.querySelectorAll('.view-section').forEach(section => {
     section.classList.remove('active');
   });
 
   const targetSection = document.getElementById(`view-${viewId}`);
-  if (targetSection) targetSection.classList.add('active');
+  if (targetSection) {
+    targetSection.classList.add('active');
+  } else {
+    console.warn(`[RoomSync AI] View section not found: view-${viewId}`);
+  }
 
   document.querySelectorAll('.nav-menu .nav-item').forEach(item => {
     item.classList.remove('active');
@@ -377,22 +382,29 @@ function showView(viewId) {
     container.classList.add('landing-active');
   } else {
     container.classList.remove('landing-active');
-    updateSidebarProfileWidget();
+    try {
+      updateSidebarProfileWidget();
+    } catch (err) {
+      console.error("[RoomSync AI] Error updating sidebar profile widget:", err);
+    }
   }
 
   if (viewId === 'results') {
-    renderMatchResults();
+    renderMatchResults().catch(err => console.error("[RoomSync AI] Error rendering match results:", err));
   } else if (viewId === 'admin') {
-    renderAdminDashboard();
+    renderAdminDashboard().catch(err => console.error("[RoomSync AI] Error rendering admin dashboard:", err));
   } else if (viewId === 'database') {
     setTimeout(drawERDiagramRelationships, 150);
   }
 
-  document.getElementById('app-sidebar').classList.remove('open');
-  document.querySelector('main').scrollTop = 0;
+  const sidebar = document.getElementById('app-sidebar');
+  if (sidebar) sidebar.classList.remove('open');
+  const mainEl = document.querySelector('main');
+  if (mainEl) mainEl.scrollTop = 0;
 }
 
 function enterApp(targetView) {
+  console.log(`[RoomSync AI] enterApp requested for: ${targetView}`);
   const activeUser = getActiveUser();
   if (!activeUser && (targetView === 'preferences' || targetView === 'results')) {
     showView('register');
@@ -408,12 +420,20 @@ function updateSidebarProfileWidget() {
   const idLabel = document.getElementById('sidebar-user-id');
   const avatarLabel = document.getElementById('sidebar-user-avatar');
 
-  if (activeUser) {
+  if (!widget) return;
+
+  if (activeUser && activeUser.name) {
     widget.style.display = 'flex';
-    nameLabel.textContent = activeUser.name;
-    idLabel.textContent = `ID: ${activeUser.student_id}`;
-    const initials = activeUser.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-    avatarLabel.textContent = initials;
+    if (nameLabel) nameLabel.textContent = activeUser.name;
+    if (idLabel) idLabel.textContent = `ID: ${activeUser.student_id || 'N/A'}`;
+    if (avatarLabel) {
+      try {
+        const initials = activeUser.name.split(' ').map(n => n ? n[0] : '').join('').substring(0, 2).toUpperCase();
+        avatarLabel.textContent = initials || '??';
+      } catch (e) {
+        avatarLabel.textContent = '??';
+      }
+    }
   } else {
     widget.style.display = 'none';
   }
