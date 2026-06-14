@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RoomSync AI – 4K Digital Exhibition Poster</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    @media print {
+      @page {
+        size: 3840px 2160px;
+        margin: 0;
+      }
+      body {
+        width: 3840px;
+        height: 2160px;
+        padding: 60px 80px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+    /* ----------------------------------------------------
+       1. CORE THEMING & RESET (Scaled for 4K / 3840x2160)
+       ---------------------------------------------------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    }
+
+    body {
+      width: 3840px;
+      height: 2160px;
+      background-color: #080b15;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(109, 93, 252, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 229, 255, 0.12) 0%, transparent 40%);
+      color: #f3f4f6;
+      overflow: hidden;
+      position: relative;
+      padding: 60px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Glowing decorative blobs */
+    .glow-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(150px);
+      z-index: 0;
+      opacity: 0.5;
+    }
+    .blob-1 { top: 200px; left: 1000px; width: 400px; height: 400px; background: rgba(109, 93, 252, 0.2); }
+    .blob-2 { bottom: 200px; right: 800px; width: 500px; height: 500px; background: rgba(0, 229, 255, 0.15); }
+
+    /* ----------------------------------------------------
+       2. TOP HEADER BANNER
+       ---------------------------------------------------- */
+    header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+      margin-bottom: 40px;
+    }
+
+    .header-logo-container {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      background: rgba(15, 22, 42, 0.45);
+      border: 2px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 25px 40px;
+      width: 1100px;
+      backdrop-filter: blur(12px);
+    }
+
+    .logo-img {
+      width: 110px;
+      height: 110px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .header-logo-text h2 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #00e5ff;
+      letter-spacing: -0.5px;
+      margin-bottom: 5px;
+    }
+
+    .header-logo-text p {
+      font-size: 20px;
+      color: #9ca3af;
+    }
+
+    .header-center-title {
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    .header-center-title h1 {
+      font-size: 76px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -2px;
+      text-shadow: 0 0 30px rgba(109, 93, 252, 0.4);
+      margin-bottom: 10px;
+    }
+
+    .header-center-title .subtitle {
+      font-size: 26px;
+      font-weight: 600;
+      color: #6d5dfc;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    /* Project Info Banner */
+    .project-info-banner {
+      width: 100%;
+      background: rgba(15, 22, 42, 0.45);
+      border: 2px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 18px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
+
+    .info-banner-col {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 20px;
+      color: #e5e7eb;
+      font-weight: 600;
+    }
+
+    .info-banner-col strong {
+      color: #00e5ff;
+      letter-spacing: 0.5px;
+    }
+
+    .info-banner-icon {
+      font-size: 26px;
+      color: #6d5dfc;
+    }
+
+    /* ----------------------------------------------------
+       3. POSTER MAIN GRID
+       ---------------------------------------------------- */
+    .poster-grid {
+      display: grid;
+      grid-template-columns: 1000px 1620px 1000px;
+      grid-template-rows: 1000px 580px;
+      gap: 20px;
+      flex-grow: 1;
+      z-index: 10;
+    }
+
+    /* Card Panels */
+    .card-panel {
+      background: rgba(15, 22, 42, 0.5);
+      border: 3px solid rgba(255, 255, 255, 0.08);
+      border-radius: 32px;
+      padding: 45px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      transition: border-color 0.3s;
+    }
+
+    .card-panel::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      border-radius: 32px;
+      border: 2px solid transparent;
+      background: linear-gradient(135deg, rgba(109,93,252,0.3), rgba(0,229,255,0.3)) border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .card-title {
+      font-size: 38px;
+      font-weight: 700;
+      color: #00e5ff;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 2px solid rgba(109, 93, 252, 0.3);
+      padding-bottom: 15px;
+    }
+
+    .card-title span {
+      color: #6d5dfc;
+    }
+
+    /* ----------------------------------------------------
+       CARD-SPECIFIC STYLES
+       ---------------------------------------------------- */
+
+    /* Card 1: Visual Infographics */
+    .info-paragraph {
+      font-size: 24px;
+      line-height: 1.6;
+      color: #d1d5db;
+      margin-bottom: 40px;
+    }
+
+    .info-graphic-illustration {
+      flex-grow: 1;
+      background: rgba(10, 15, 30, 0.6);
+      border: 2px solid rgba(109, 93, 252, 0.2);
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .info-item-row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    .info-item-row:last-child { margin-bottom: 0; }
+
+    .info-icon-box {
+      width: 90px;
+      height: 90px;
+      border-radius: 20px;
+      background: rgba(109, 93, 252, 0.15);
+      border: 2px solid #6d5dfc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 36px;
+      color: #00e5ff;
+    }
+
+    .info-item-text h4 {
+      font-size: 26px;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+    .info-item-text p {
+      font-size: 20px;
+      color: #9ca3af;
+    }
+
+    /* Card 2: Central Schema Network (High fidelity Vector layout) */
+    /* Card 2: Central Schema Network (High fidelity Vector layout) */
+    .network-container {
+      flex-grow: 1;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #090c15;
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(109, 93, 252, 0.15) 0%, transparent 80%),
+        radial-gradient(circle at 10% 90%, rgba(0, 229, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 90% 10%, rgba(255, 0, 127, 0.08) 0%, transparent 50%);
+      border-radius: 24px;
+      overflow: hidden;
+      border: 2px solid rgba(109, 93, 252, 0.2);
+    }
+
+    .network-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .student-node {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 10;
+      width: 180px;
+    }
+
+    .student-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #070913;
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .student-cyan .student-avatar {
+      border: 3px solid #00e5ff;
+      box-shadow: 0 0 25px rgba(0, 229, 255, 0.65), inset 0 0 12px rgba(0, 229, 255, 0.35);
+      color: #00e5ff;
+    }
+
+    .student-magenta .student-avatar {
+      border: 3px solid #ff007f;
+      box-shadow: 0 0 25px rgba(255, 0, 127, 0.65), inset 0 0 12px rgba(255, 0, 127, 0.35);
+      color: #ff007f;
+    }
+
+    .student-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 10px;
+      text-align: center;
+      text-shadow: 0 0 8px rgba(0, 0, 0, 0.9), 0 2px 4px rgba(0, 0, 0, 0.9);
+      letter-spacing: -0.2px;
+    }
+
+    .student-desc {
+      font-size: 12px;
+      color: #9ca3af;
+      text-align: center;
+      margin-top: 2px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      text-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
+    }
+
+    .schema-node {
+      position: absolute;
+      width: 250px;
+      background: rgba(10, 15, 30, 0.75);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      z-index: 5;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .schema-cyan {
+      border: 2px solid rgba(0, 229, 255, 0.35);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65), 0 0 15px rgba(0, 229, 255, 0.1);
+    }
+
+    .schema-purple {
+      border: 2px solid rgba(109, 93, 252, 0.35);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65), 0 0 15px rgba(109, 93, 252, 0.1);
+    }
+
+    .schema-header {
+      padding: 10px 15px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .schema-cyan .schema-header {
+      background: linear-gradient(90deg, rgba(0, 229, 255, 0.2) 0%, rgba(10, 15, 30, 0.8) 100%);
+      border-bottom: 1px solid rgba(0, 229, 255, 0.25);
+    }
+
+    .schema-purple .schema-header {
+      background: linear-gradient(90deg, rgba(109, 93, 252, 0.2) 0%, rgba(10, 15, 30, 0.8) 100%);
+      border-bottom: 1px solid rgba(109, 93, 252, 0.25);
+    }
+
+    .schema-table-tag {
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      font-family: monospace;
+      color: #d1d5db;
+    }
+
+    .schema-body {
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .schema-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-family: Consolas, Monaco, monospace;
+    }
+
+    .col-name {
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .col-key-pk {
+      color: #fbbf24;
+      font-weight: bold;
+    }
+
+    .col-key-fk {
+      color: #38bdf8;
+      font-weight: bold;
+    }
+
+    .col-type {
+      color: #9ca3af;
+    }
+
+    /* Card 3: Reflection */
+    .reflection-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      height: 100%;
+      justify-content: space-between;
+    }
+
+    .reflect-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 25px;
+      background: rgba(10, 15, 30, 0.45);
+      padding: 25px;
+      border-radius: 24px;
+      border: 1.5px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.3s;
+    }
+
+    .reflect-badge {
+      width: 70px;
+      height: 70px;
+      border-radius: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .reflect-green {
+      background: rgba(34, 197, 94, 0.12);
+      border: 2px solid #22c55e;
+      color: #22c55e;
+      box-shadow: 0 0 15px rgba(34, 197, 94, 0.25);
+    }
+
+    .reflect-amber {
+      background: rgba(245, 158, 11, 0.12);
+      border: 2px solid #f59e0b;
+      color: #f59e0b;
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.25);
+    }
+
+    .reflect-blue {
+      background: rgba(59, 130, 246, 0.12);
+      border: 2px solid #3b82f6;
+      color: #3b82f6;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.25);
+    }
+
+    .reflect-text {
+      flex-grow: 1;
+    }
+
+    .reflect-item h4 {
+      font-size: 26px;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .reflect-item p {
+      font-size: 19px;
+      color: #d1d5db;
+      line-height: 1.5;
+    }
+
+    /* Bottom Row Cards */
+    .bottom-title {
+      font-size: 32px !important;
+    }
+
+    /* Weighted Index (Bottom Left) */
+    .chart-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .pie-mock {
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: conic-gradient(
+        #6d5dfc 0% 25%, 
+        #00e5ff 25% 50%, 
+        #22c55e 50% 70%, 
+        #fbbf24 70% 100%
+      );
+      box-shadow: 0 0 30px rgba(109, 93, 252, 0.3);
+      position: relative;
+    }
+    .pie-mock::after {
+      content: '';
+      position: absolute;
+      top: 50px; left: 50px; width: 150px; height: 150px;
+      background: #0d1222;
+      border-radius: 50%;
+    }
+
+    .legend-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 22px;
+      color: #d1d5db;
+    }
+
+    .color-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+    }
+
+    /* Jaccard formula (Bottom Middle) */
+    .formula-content {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+      gap: 30px;
+    }
+
+    .formula-left {
+      width: 55%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .formula-right {
+      width: 45%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .formula-math {
+      font-size: 38px;
+      font-family: 'Courier New', monospace;
+      color: #00e5ff;
+      background: rgba(10, 15, 30, 0.5);
+      padding: 15px 30px;
+      border-radius: 18px;
+      border: 2px solid rgba(109, 93, 252, 0.3);
+      text-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+      text-align: center;
+    }
+
+    .formula-desc {
+      font-size: 19px;
+      color: #9ca3af;
+      line-height: 1.5;
+    }
+
+    /* Serverless Stack & Live Link (Bottom Right) */
+    .stack-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+      gap: 30px;
+    }
+
+    .stack-flow {
+      width: 60%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 100%;
+    }
+
+    .live-link-box {
+      width: 40%;
+      background: rgba(10, 15, 30, 0.45);
+      border: 1.5px solid rgba(255, 255, 255, 0.05);
+      border-radius: 24px;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      box-shadow: inset 0 0 20px rgba(109, 93, 252, 0.1);
+    }
+
+    .live-qr-code {
+      width: 130px;
+      height: 130px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 8px;
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .live-qr-code img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .live-link-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #00e5ff;
+      text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+    }
+
+    .live-url-text {
+      font-size: 16px;
+      color: #ffffff;
+      font-weight: bold;
+      text-decoration: none;
+      border-bottom: 1px dashed #6d5dfc;
+      padding-bottom: 2px;
+    }
+
+    .live-link-desc {
+      font-size: 14px;
+      color: #9ca3af;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .stack-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .stack-icon {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: rgba(109, 93, 252, 0.15);
+      border: 3px solid #6d5dfc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 40px;
+      color: #00e5ff;
+      box-shadow: 0 0 20px rgba(109, 93, 252, 0.2);
+    }
+
+    .stack-node p {
+      font-size: 20px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .stack-arrow {
+      font-size: 48px;
+      color: #6d5dfc;
+      text-shadow: 0 0 10px rgba(109, 93, 252, 0.5);
+    }
+
+    /* ----------------------------------------------------
+       4. FOOTER & REFERENCE SECTION
+       ---------------------------------------------------- */
+    footer {
+      width: 100%;
+      border-top: 3px solid #6d5dfc;
+      padding-top: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+      margin-top: 30px;
+    }
+
+    .footer-left {
+      font-size: 18px;
+      color: #9ca3af;
+    }
+
+    .footer-right {
+      font-size: 18px;
+      color: #9ca3af;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Glow Blobs Background -->
+  <div class="glow-blob blob-1"></div>
+  <div class="glow-blob blob-2"></div>
+
+  <!-- Header Banner -->
+  <header>
+    <!-- Left Logo Box -->
+    <div class="header-logo-container">
+      <img class="logo-img" src="C:/Users/srini/OneDrive/Desktop/roomsync_poster_logo_left.jpg" alt="MIT Mysore Logo">
+      <div class="header-logo-text">
+        <h2>Maharaja Institute of Technology</h2>
+        <p>Mysore, Karnataka</p>
+      </div>
+    </div>
+
+    <!-- Center Title -->
+    <div class="header-center-title">
+      <h1>RoomSync AI</h1>
+      <div class="subtitle">Smart Hostel Roommate Matcher</div>
+    </div>
+
+    <!-- Right Logo Box -->
+    <div class="header-logo-container">
+      <div class="header-logo-text" style="text-align: right;">
+        <h2>Department of CSE</h2>
+        <p>Artificial Intelligence (2025-26)</p>
+      </div>
+      <img class="logo-img" src="C:/Users/srini/OneDrive/Desktop/roomsync_poster_logo_right.jpg" alt="CSE AI Logo">
+    </div>
+  </header>
+
+  <!-- Project Info Banner -->
+  <div class="project-info-banner">
+
+    <div class="info-banner-col">
+      <span class="info-banner-icon">🏫</span>
+      <span>Guided By: <strong>CSE AI Faculty Coordinators</strong></span>
+    </div>
+    <div class="info-banner-col">
+      <span class="info-banner-icon">🧪</span>
+      <span>Subject: <strong>Artificial Intelligence Lab (Semester IV)</strong></span>
+    </div>
+    <div class="info-banner-col">
+      <span class="info-banner-icon">🏛️</span>
+      <span>Institution: <strong>Maharaja Institute of Technology Mysore</strong></span>
+    </div>
+  </div>
+
+  <!-- Main Grid Layout -->
+  <div class="poster-grid">
+    
+    <!-- CARD 1: Visual Infographics (Left Column, Top) -->
+    <div class="card-panel">
+      <div class="card-title"><span>01</span> Visual Infographics</div>
+      <p class="info-paragraph">
+        RoomSync AI matches roommate compatibility based on student lifestyle profiles. The central compatibility network visualizes connections between candidate matching index ratios.
+      </p>
+      <div class="info-graphic-illustration">
+        <div class="info-item-row">
+          <div class="info-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 50%; height: 50%;">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v6l4 2" />
+              <path d="M12 2a10 10 0 010 20M12 22V2" stroke-dasharray="2 2" />
+            </svg>
+          </div>
+          <div class="info-item-text">
+            <h4>Lifestyle Alignment</h4>
+            <p>Matches sleep cycles and hygiene standards</p>
+          </div>
+        </div>
+        <div class="info-item-row">
+          <div class="info-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 50%; height: 50%;">
+              <path d="M16 16c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z" />
+              <path d="M8 16c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z" />
+            </svg>
+          </div>
+          <div class="info-item-text">
+            <h4>Interest Intersection</h4>
+            <p>Calculates hobby overlaps via Jaccard index</p>
+          </div>
+        </div>
+        <div class="info-item-row">
+          <div class="info-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 50%; height: 50%;">
+              <rect x="3" y="3" width="7" height="9" rx="1" />
+              <rect x="14" y="3" width="7" height="5" rx="1" />
+              <rect x="14" y="12" width="7" height="9" rx="1" />
+              <rect x="3" y="16" width="7" height="5" rx="1" />
+              <path d="M7 7h7M10 18h4" stroke-dasharray="3 3" />
+            </svg>
+          </div>
+          <div class="info-item-text">
+            <h4>Dynamic Allocation</h4>
+            <p>Suggests rooms automatically in Quiet/Social zones</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- AI Allocation Pipeline -->
+      <div class="pipeline-container" style="margin-top: 35px; border-top: 1.5px dashed rgba(109, 93, 252, 0.3); padding-top: 25px;">
+        <h4 style="font-size: 26px; color: #00e5ff; margin-bottom: 20px; font-weight: 700; letter-spacing: 0.5px;">AI Allocation Pipeline</h4>
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+          <div style="display: flex; align-items: center; gap: 20px;">
+            <div style="width: 45px; height: 45px; border-radius: 50%; background: rgba(0, 229, 255, 0.1); border: 2.5px solid #00e5ff; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; color: #00e5ff; flex-shrink: 0; box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);">1</div>
+            <div>
+              <h5 style="font-size: 20px; color: #ffffff; margin-bottom: 3px; font-weight: 600;">Profile Registration & Lifestyle Survey</h5>
+              <p style="font-size: 16px; color: #9ca3af; line-height: 1.4;">Students submit detailed preferences for sleep, study, and cleanliness habits.</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 20px;">
+            <div style="width: 45px; height: 45px; border-radius: 50%; background: rgba(109, 93, 252, 0.1); border: 2.5px solid #6d5dfc; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; color: #6d5dfc; flex-shrink: 0; box-shadow: 0 0 10px rgba(109, 93, 252, 0.2);">2</div>
+            <div>
+              <h5 style="font-size: 20px; color: #ffffff; margin-bottom: 3px; font-weight: 600;">Vector Generation & Normalization</h5>
+              <p style="font-size: 16px; color: #9ca3af; line-height: 1.4;">Survey data points are converted to numeric feature weights for calculation.</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 20px;">
+            <div style="width: 45px; height: 45px; border-radius: 50%; background: rgba(255, 0, 127, 0.1); border: 2.5px solid #ff007f; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; color: #ff007f; flex-shrink: 0; box-shadow: 0 0 10px rgba(255, 0, 127, 0.2);">3</div>
+            <div>
+              <h5 style="font-size: 20px; color: #ffffff; margin-bottom: 3px; font-weight: 600;">Similarity Index Calculations</h5>
+              <p style="font-size: 16px; color: #9ca3af; line-height: 1.4;">Calculates Jaccard overlap for hobbies and weighted index for lifestyle metrics.</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 20px;">
+            <div style="width: 45px; height: 45px; border-radius: 50%; background: rgba(34, 197, 94, 0.1); border: 2.5px solid #22c55e; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; color: #22c55e; flex-shrink: 0; box-shadow: 0 0 10px rgba(34, 197, 94, 0.2);">4</div>
+            <div>
+              <h5 style="font-size: 20px; color: #ffffff; margin-bottom: 3px; font-weight: 600;">Dynamic Hostel Allocation</h5>
+              <p style="font-size: 16px; color: #9ca3af; line-height: 1.4;">Rooms are suggested based on zones (Quiet/Active) to maximize match scoring.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 2: Central Schema ER Diagram (Middle Column, Top) -->
+    <div class="card-panel">
+      <div class="card-title"><span>02</span> Relational Database Schema & Matching Network</div>
+      <div class="network-container">
+        <!-- SVG for connections and relationship lines -->
+        <svg class="network-svg">
+          <!-- Neon Filters for Glow Effects -->
+          <defs>
+            <filter id="glow-cyan" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="7" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <filter id="glow-magenta" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="7" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Outer Hexagon / Octagon matching lines -->
+          <line x1="170" y1="145" x2="765" y2="55" stroke="#00e5ff" stroke-width="4.5" filter="url(#glow-cyan)" />
+          <line x1="765" y1="55" x2="1360" y2="145" stroke="#ff007f" stroke-width="4.5" filter="url(#glow-magenta)" />
+          <line x1="1360" y1="145" x2="1260" y2="365" stroke="#00e5ff" stroke-width="4.5" filter="url(#glow-cyan)" />
+          <line x1="1260" y1="365" x2="1360" y2="585" stroke="#ff007f" stroke-width="4.5" filter="url(#glow-magenta)" />
+          <line x1="1360" y1="585" x2="765" y2="805" stroke="#00e5ff" stroke-width="4.5" filter="url(#glow-cyan)" />
+          <line x1="765" y1="805" x2="170" y2="585" stroke="#ff007f" stroke-width="4.5" filter="url(#glow-magenta)" />
+          <line x1="170" y1="585" x2="270" y2="365" stroke="#00e5ff" stroke-width="4.5" filter="url(#glow-cyan)" />
+          <line x1="270" y1="365" x2="170" y2="145" stroke="#ff007f" stroke-width="4.5" filter="url(#glow-magenta)" />
+
+          <!-- Inner criss-cross lines -->
+          <line x1="170" y1="145" x2="765" y2="805" stroke="#00e5ff" stroke-width="3" filter="url(#glow-cyan)" opacity="0.85" />
+          <line x1="170" y1="585" x2="765" y2="55" stroke="#ff007f" stroke-width="3" filter="url(#glow-magenta)" opacity="0.85" />
+          <line x1="1360" y1="145" x2="765" y2="805" stroke="#ff007f" stroke-width="3" filter="url(#glow-magenta)" opacity="0.85" />
+          <line x1="1360" y1="585" x2="765" y2="55" stroke="#00e5ff" stroke-width="3" filter="url(#glow-cyan)" opacity="0.85" />
+          <line x1="270" y1="365" x2="1260" y2="365" stroke="#00e5ff" stroke-width="3.5" filter="url(#glow-cyan)" opacity="0.9" />
+          <line x1="170" y1="145" x2="1260" y2="365" stroke="#ff007f" stroke-width="3" filter="url(#glow-magenta)" opacity="0.85" />
+          <line x1="1360" y1="145" x2="270" y2="365" stroke="#00e5ff" stroke-width="3" filter="url(#glow-cyan)" opacity="0.85" />
+          <line x1="170" y1="585" x2="1260" y2="365" stroke="#ff007f" stroke-width="3" filter="url(#glow-magenta)" opacity="0.85" />
+          <line x1="1360" y1="585" x2="270" y2="365" stroke="#00e5ff" stroke-width="3" filter="url(#glow-cyan)" opacity="0.85" />
+
+          <!-- Table relationship indicator lines -->
+          <path d="M 630,220 L 900,220" fill="none" stroke="rgba(0, 229, 255, 0.45)" stroke-width="2" stroke-dasharray="4 4" />
+          <path d="M 505,330 L 505,580" fill="none" stroke="rgba(0, 229, 255, 0.45)" stroke-width="2" stroke-dasharray="4 4" />
+          <path d="M 1025,330 L 1025,580" fill="none" stroke="rgba(255, 0, 127, 0.45)" stroke-width="2" stroke-dasharray="4 4" />
+          <path d="M 630,280 L 900,600" fill="none" stroke="rgba(109, 93, 252, 0.4)" stroke-width="2" stroke-dasharray="4 4" />
+        </svg>
+
+        <!-- Compatibility Labels -->
+        <div style="position: absolute; left: 715px; top: 70px; z-index: 12; background: #00e5ff; color: #080b15; padding: 4px 10px; border-radius: 20px; font-weight: 800; font-size: 14px; box-shadow: 0 0 10px #00e5ff; letter-spacing: -0.2px;">91% MATCH</div>
+        <div style="position: absolute; left: 715px; top: 770px; z-index: 12; background: #ff007f; color: #ffffff; padding: 4px 10px; border-radius: 20px; font-weight: 800; font-size: 14px; box-shadow: 0 0 10px #ff007f; letter-spacing: -0.2px;">97% MATCH</div>
+        <div style="position: absolute; left: 715px; top: 350px; z-index: 12; background: rgba(0, 229, 255, 0.2); border: 1.5px solid #00e5ff; color: #00e5ff; padding: 4px 10px; border-radius: 20px; font-weight: 800; font-size: 14px; text-shadow: 0 0 5px #00e5ff; backdrop-filter: blur(8px);">88% MATCH</div>
+        
+        <!-- STUDENT PROFILE NODES -->
+        <!-- Student 1 (Top Left) -->
+        <div class="student-node student-cyan" style="left: 80px; top: 100px;">
+          <div class="student-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 40%; height: 40%;">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          <div class="student-name">Aarav Sharma</div>
+          <div class="student-desc">S202601 • Gaming</div>
+        </div>
+
+        <!-- Student 2 (Bottom Left) -->
+        <div class="student-node student-magenta" style="left: 80px; top: 540px;">
+          <div class="student-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 40%; height: 40%;">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          <div class="student-name">Kavita Verma</div>
+          <div class="student-desc">S202602 • Reading</div>
+        </div>
+
+        <!-- Student 3 (Top Right) -->
+        <div class="student-node student-cyan" style="left: 1270px; top: 100px;">
+          <div class="student-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 40%; height: 40%;">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          <div class="student-name">Rahul Nair</div>
+          <div class="student-desc">S202603 • Gaming</div>
+        </div>
+
+        <!-- Student 4 (Bottom Right) -->
+        <div class="student-node student-magenta" style="left: 1270px; top: 540px;">
+          <div class="student-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 40%; height: 40%;">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          <div class="student-name">Meera Pillai</div>
+          <div class="student-desc">S202604 • Reading</div>
+        </div>
+
+        <!-- Student 5 (Bottom Center) -->
+        <div class="student-node student-magenta" style="left: 675px; top: 760px;">
+          <div class="student-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 40%; height: 40%;">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          <div class="student-name">Vikram Singh</div>
+          <div class="student-desc">S202609 • Sports</div>
+        </div>
+
+        <!-- Student 6 (Center Left) -->
+        <div class="student-node student-magenta" style="left: 180px; top: 320px;">
+          <div class="student-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 40%; height: 40%;">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          <div class="student-name">Anjali Das</div>
+          <div class="student-desc">S202606 • Music</div>
+        </div>
+
+        <!-- Student 7 (Center Right) -->
+        <div class="student-node student-cyan" style="left: 1170px; top: 320px;">
+          <div class="student-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 40%; height: 40%;">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          <div class="student-name">Rohan Gupta</div>
+          <div class="student-desc">S202607 • Fitness</div>
+        </div>
+
+        <!-- Student 8 (Top Center) -->
+        <div class="student-node student-cyan" style="left: 675px; top: 10px;">
+          <div class="student-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 40%; height: 40%;">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          <div class="student-name">Siddharth Patel</div>
+          <div class="student-desc">S202605 • Sports</div>
+        </div>
+
+        <!-- SCHEMA CARDS -->
+        <!-- Table 1: students -->
+        <div class="schema-node schema-cyan" style="left: 380px; top: 120px;">
+          <div class="schema-header">
+            <span>students</span>
+            <span class="schema-table-tag">TABLE</span>
+          </div>
+          <div class="schema-body">
+            <div class="schema-row">
+              <span class="col-name"><span class="col-key-pk">🔑</span> student_id</span>
+              <span class="col-type">VARCHAR(50)</span>
+            </div>
+            <div class="schema-row">
+              <span class="col-name">&nbsp;&nbsp;&nbsp;&nbsp;name</span>
+              <span class="col-type">VARCHAR(100)</span>
+            </div>
+            <div class="schema-row">
+              <span class="col-name">&nbsp;&nbsp;&nbsp;&nbsp;gender</span>
+              <span class="col-type">VARCHAR(20)</span>
+            </div>
+            <div class="schema-row">
+              <span class="col-name">&nbsp;&nbsp;&nbsp;&nbsp;branch</span>
+              <span class="col-type">VARCHAR(100)</span>
+            </div>
+            <div class="schema-row">
+              <span class="col-name">&nbsp;&nbsp;&nbsp;&nbsp;year</span>
+              <span class="col-type">VARCHAR(20)</span>
+            </div>
+            <div class="schema-row">
+              <span class="col-name">&nbsp;&nbsp;&nbsp;&nbsp;email</span>
+              <span class="col-type">VARCHAR(100)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table 2: preferences -->
+        <div class="schema-node schema-purple" style="left: 900px; top: 120px;">
+          <div class="schema-header">
+            <span>preferences</span>
+            <span class="schema-table-tag">TABLE</span>
+          </div>
+          <div class="schema-body">
+            <div class="schema-row">
+              <span class="col-name"><span class="col-key-pk">🔑</span> pref_id</span>
+              <span class="col-type">INT [AI]</span>
+            </div>
+            <div class="schema-row">
+              <span class="col-name"><span class="col-key-fk">🔑</span> student_id</span>
+              <span class="col-type">VARCHAR(50)</span>
+            </div>
+            <div class="schema-row">
+              <span class="col-name">&nbsp;&nbsp;&nbsp;&nbsp;sleep_schedule</span>
+              <span class="col-type">VARCHAR(50)</span>
+            </div>
+            <div class="schema-row">
+              <span class="col-name">&nbsp;&nbsp;&nbsp;&nbsp;study_style</span>
+              <span class="col-type">VARCHAR(50)</span>
+            </div>
+            <div class="schema-row">
+              <span class="col-name">&nbsp;&nbsp;&nbsp;&nbsp;cleanliness</span>
+              <span class="col-type">VARCHAR(50)</span>
+            </div>
+            <div class="schema-row">
+              <span class="col-name">&nbsp;&nbsp;&nbsp;&nbsp;social_pref</span>
+              <span class="col-type">VARCHAR(50)</span>
+            </div>
+            <div class="schema-row">
+              <span class="col-name">&nbsp;&nbsp;&nbsp;&nbsp;room_environment</span>
+              <span class="col-type">VARCHAR(50)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table 3: hobbies -->
+        <div class="schema-node schema-cyan" style="left: 380px; top: 580px;">
+          <div class="schema-header">
+            <span>hobbies</span>
+            <span class="schema-table-tag">TABLE</span>
+          </div>
+          <div class="schema-body">
+            <div class="schema-row">
+              <span class="col-name"><span class="col-key-pk">🔑</span> hobby_id</span>
+              <span class="col-type">INT [AI]</span>
+            </div>
+            <div class="schema-row">
+              <span class="col-name"><span class="col-key-fk">🔑</span> student_id</span>
+              <span class="col-type">VARCHAR(50)</span>
+            </div>
+            <div class="schema-row">
+              <span class="col-name">&nbsp;&nbsp;&nbsp;&nbsp;hobby_name</span>
+              <span class="col-type">VARCHAR(50)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table 4: matches -->
+        <div class="schema-node schema-purple" style="left: 900px; top: 580px;">
+          <div class="schema-header">
+            <span>matches</span>
+            <span class="schema-table-tag">TABLE</span>
+          </div>
+          <div class="schema-body">
+            <div class="schema-row">
+              <span class="col-name"><span class="col-key-pk">🔑</span> match_id</span>
+              <span class="col-type">INT [AI]</span>
+            </div>
+            <div class="schema-row">
+              <span class="col-name"><span class="col-key-fk">🔑</span> student_a_id</span>
+              <span class="col-type">VARCHAR(50)</span>
+            </div>
+            <div class="schema-row">
+              <span class="col-name"><span class="col-key-fk">🔑</span> student_b_id</span>
+              <span class="col-type">VARCHAR(50)</span>
+            </div>
+            <div class="schema-row">
+              <span class="col-name">&nbsp;&nbsp;&nbsp;&nbsp;compatibility_score</span>
+              <span class="col-type">INT</span>
+            </div>
+            <div class="schema-row">
+              <span class="col-name">&nbsp;&nbsp;&nbsp;&nbsp;match_date</span>
+              <span class="col-type">DATETIME</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 3: Reflection (Right Column, Top) -->
+    <div class="card-panel">
+      <div class="card-title"><span>03</span> Reflection & Scope</div>
+      <div class="reflection-list">
+        <div class="reflect-item">
+          <div class="reflect-badge reflect-green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 32px; height: 32px;">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </div>
+          <div class="reflect-text">
+            <h4>Key Advantages</h4>
+            <p>Eliminates roommate disputes prior to allocation. Standardized objective scoring. Resilient cloud backend architecture with LocalStorage fallback.</p>
+          </div>
+        </div>
+        <div class="reflect-item">
+          <div class="reflect-badge reflect-amber">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 32px; height: 32px;">
+              <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01" />
+            </svg>
+          </div>
+          <div class="reflect-text">
+            <h4>System Limitations</h4>
+            <p>Relies on honest, accurate student survey responses. Clever Cloud free tier database caps active SQL request concurrency.</p>
+          </div>
+        </div>
+        <div class="reflect-item">
+          <div class="reflect-badge reflect-blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 32px; height: 32px;">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+          </div>
+          <div class="reflect-text">
+            <h4>Future Scope</h4>
+            <p>Clustering Machine Learning models (K-Means) for multi-bed configurations. Anonymous secure peer chat verification before room finalization.</p>
+          </div>
+        </div>
+        <div class="reflect-item">
+          <div class="reflect-badge" style="background: rgba(109, 93, 252, 0.12); border: 2px solid #6d5dfc; color: #6d5dfc; box-shadow: 0 0 15px rgba(109, 93, 252, 0.25);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 32px; height: 32px;">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
+              <line x1="6" y1="6" x2="6.01" y2="6" />
+              <line x1="6" y1="18" x2="6.01" y2="18" />
+            </svg>
+          </div>
+          <div class="reflect-text">
+            <h4>System Integration</h4>
+            <p>Built with scalable API architecture for seamless onboarding of institutional management portals and student databases.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 4: Weighted Matching Index (Bottom Row, Left) -->
+    <div class="card-panel" style="grid-row: 2;">
+      <div class="card-title bottom-title"><span>04</span> Weighted Matching Index</div>
+      <div class="chart-container">
+        <div class="pie-mock"></div>
+        <div class="legend-container">
+          <div class="legend-item"><div class="color-dot" style="background: #6d5dfc;"></div> 25% Sleep Schedule</div>
+          <div class="legend-item"><div class="color-dot" style="background: #00e5ff;"></div> 25% Cleanliness</div>
+          <div class="legend-item"><div class="color-dot" style="background: #22c55e;"></div> 20% Study Habits</div>
+          <div class="legend-item"><div class="color-dot" style="background: #fbbf24;"></div> 30% Hobbies & Social</div>
+        </div>
+      </div>
+      <p style="font-size: 15px; color: #9ca3af; line-height: 1.4; margin-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 15px;">
+        <strong>Weight Allocation:</strong> Lifestyle habits are weighted based on administrator-configured priorities. The compatibility index aggregates these components using a normalized linear combination to yield a final matching score.
+      </p>
+    </div>
+
+    <!-- CARD 5: Jaccard Formula (Bottom Row, Middle) -->
+    <div class="card-panel" style="grid-row: 2;">
+      <div class="card-title bottom-title"><span>05</span> Jaccard Similarity Index</div>
+      <div class="formula-content">
+        <div class="formula-left">
+          <div class="formula-math">
+            J(A, B) = |A ∩ B| / |A ∪ B|
+          </div>
+          <p class="formula-desc">
+            Interest overlaps are calculated by dividing the shared hobbies (intersection) by the total combined hobbies (union) between Roommate A and Roommate B.
+          </p>
+          <p style="font-size: 14px; color: #9ca3af; line-height: 1.4; margin-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;">
+            <strong>Set Logic:</strong> The set intersection \(|A \cap B|\) extracts hobbies shared in common, while the union \(|A \cup B|\) calculates total unique hobbies. The resulting ratio represents set similarity, acting as a primary filter for interest-based matches.
+          </p>
+        </div>
+        <div class="formula-right">
+          <svg viewBox="0 0 380 220" style="width: 450px; height: 260px; filter: drop-shadow(0 0 12px rgba(0, 229, 255, 0.2));">
+            <defs>
+              <mask id="overlap-mask">
+                <circle cx="140" cy="110" r="80" fill="white" />
+                <circle cx="240" cy="110" r="80" fill="white" />
+              </mask>
+            </defs>
+            <!-- Circle A -->
+            <circle cx="140" cy="110" r="80" fill="rgba(0, 229, 255, 0.12)" stroke="#00e5ff" stroke-width="3" />
+            <!-- Circle B -->
+            <circle cx="240" cy="110" r="80" fill="rgba(255, 0, 127, 0.12)" stroke="#ff007f" stroke-width="3" />
+            
+            <!-- Overlap Region Highlight -->
+            <circle cx="140" cy="110" r="80" fill="rgba(109, 93, 252, 0.25)" mask="url(#overlap-mask)" />
+            
+            <!-- Labels -->
+            <text x="95" y="115" fill="#00e5ff" font-size="16" font-weight="bold" text-anchor="middle">Student A</text>
+            <text x="285" y="115" fill="#ff007f" font-size="16" font-weight="bold" text-anchor="middle">Student B</text>
+            <text x="190" y="115" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">A ∩ B</text>
+            
+            <!-- Outer set tags -->
+            <text x="95" y="200" fill="#9ca3af" font-size="12" text-anchor="middle">Gaming, Music</text>
+            <text x="285" y="200" fill="#9ca3af" font-size="12" text-anchor="middle">Reading, Gym</text>
+            <text x="190" y="25" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">Coding, Chess (Shared)</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 6: Serverless Full-Stack Architecture & Platform Live URL (Bottom Row, Right) -->
+    <div class="card-panel" style="grid-row: 2;">
+      <div class="card-title bottom-title"><span>06</span> Serverless Full-Stack Architecture</div>
+      <div class="stack-container">
+        <!-- Left Column: Detailed Full-Stack Diagram -->
+        <div style="width: 62%; height: 100%; display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 620 380" style="width: 100%; height: 100%; filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.05));">
+            <defs>
+              <filter id="glow-cyan" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            <!-- 1. Client Tier Box -->
+            <rect x="15" y="60" width="165" height="230" rx="16" fill="rgba(10, 15, 30, 0.8)" stroke="#6d5dfc" stroke-width="2.5" />
+            <text x="97" y="90" fill="#6d5dfc" font-size="14" font-weight="bold" text-anchor="middle">CLIENT TIER</text>
+            <line x1="30" y1="105" x2="165" y2="105" stroke="rgba(109, 93, 252, 0.3)" stroke-width="1.5" />
+            <!-- Inner Items -->
+            <text x="30" y="135" fill="#ffffff" font-size="12" font-weight="bold">💻 Vite Web Frontend</text>
+            <text x="30" y="160" fill="#9ca3af" font-size="11">HTML5 / CSS / Vanilla JS</text>
+            <text x="30" y="195" fill="#ffffff" font-size="12" font-weight="bold">📱 Mobile APK Wrapper</text>
+            <text x="30" y="220" fill="#9ca3af" font-size="11">Capacizer JS Bridge</text>
+            <text x="30" y="255" fill="#ffffff" font-size="12" font-weight="bold">💾 LocalStorage Cache</text>
+            <text x="30" y="275" fill="#9ca3af" font-size="11">Offline Preference Sync</text>
+
+            <!-- Flow Arrow 1 (Client to Vercel) -->
+            <path d="M 180,175 L 225,175" fill="none" stroke="#00e5ff" stroke-width="3" filter="url(#glow-cyan)" />
+            <path d="M 225,175 L 217,169 M 225,175 L 217,181" fill="none" stroke="#00e5ff" stroke-width="2.5" />
+            <text x="202" y="155" fill="#00e5ff" font-size="9" font-weight="bold" text-anchor="middle">HTTPS</text>
+            <text x="202" y="167" fill="#9ca3af" font-size="8" text-anchor="middle">REST API</text>
+
+            <!-- 2. Vercel Backend Box -->
+            <rect x="225" y="60" width="170" height="230" rx="16" fill="rgba(10, 15, 30, 0.8)" stroke="#00e5ff" stroke-width="2.5" filter="url(#glow-cyan)" />
+            <text x="310" y="90" fill="#00e5ff" font-size="14" font-weight="bold" text-anchor="middle">VERCEL BACKEND</text>
+            <line x1="240" y1="105" x2="380" y2="105" stroke="rgba(0, 229, 255, 0.3)" stroke-width="1.5" />
+            <!-- Inner Items -->
+            <text x="240" y="135" fill="#ffffff" font-size="12" font-weight="bold">☁️ Serverless Router</text>
+            <text x="240" y="160" fill="#9ca3af" font-size="11">PHP Serverless Logic</text>
+            <text x="240" y="195" fill="#ffffff" font-size="12" font-weight="bold">🧠 Jaccard Matching</text>
+            <text x="240" y="220" fill="#9ca3af" font-size="11">Similarity Coefficients</text>
+            <text x="240" y="255" fill="#ffffff" font-size="12" font-weight="bold">🔗 JSON API Response</text>
+            <text x="240" y="275" fill="#9ca3af" font-size="11">CORS-Enabled Endpoints</text>
+
+            <!-- Flow Arrow 2 (Vercel to Clever Cloud) -->
+            <path d="M 395,175 L 440,175" fill="none" stroke="#ff007f" stroke-width="3" />
+            <path d="M 440,175 L 432,169 M 440,175 L 432,181" fill="none" stroke="#ff007f" stroke-width="2.5" />
+            <text x="417" y="155" fill="#ff007f" font-size="9" font-weight="bold" text-anchor="middle">SQL TCP</text>
+            <text x="417" y="167" fill="#9ca3af" font-size="8" text-anchor="middle">PDO Query</text>
+
+            <!-- 3. Database Box -->
+            <rect x="440" y="60" width="165" height="230" rx="16" fill="rgba(10, 15, 30, 0.8)" stroke="#ff007f" stroke-width="2.5" />
+            <text x="522" y="90" fill="#ff007f" font-size="14" font-weight="bold" text-anchor="middle">DATABASE TIER</text>
+            <line x1="455" y1="105" x2="590" y2="105" stroke="rgba(255, 0, 127, 0.3)" stroke-width="1.5" />
+            <!-- Inner Items -->
+            <text x="455" y="135" fill="#ffffff" font-size="12" font-weight="bold">🗄️ MySQL Database</text>
+            <text x="455" y="160" fill="#9ca3af" font-size="11">Clever Cloud Hosting</text>
+            <text x="455" y="195" fill="#ffffff" font-size="12" font-weight="bold">🔑 Relational Schemas</text>
+            <text x="455" y="220" fill="#9ca3af" font-size="11">Foreign Key Integrity</text>
+            <text x="455" y="255" fill="#ffffff" font-size="12" font-weight="bold">⚙️ Connection Pool</text>
+            <text x="455" y="275" fill="#9ca3af" font-size="11">Concurrent API Queries</text>
+          </svg>
+        </div>
+
+        <!-- Right Column: Live Platform Details -->
+        <div class="live-link-box" style="width: 35%;">
+          <div class="live-qr-code">
+            <img src="C:/Users/srini/OneDrive/Desktop/roomsync_qrcode.png" alt="Live Platform QR Code">
+          </div>
+          <div class="live-link-title">Platform Live Access</div>
+          <a class="live-url-text" href="https://room-sync-ai-5m66.vercel.app/" target="_blank">room-sync-ai-5m66.vercel.app</a>
+          <p class="live-link-desc">Scan QR code or click URL to access Maharaja Institute of Technology RoomSync matching portal live on mobile & desktop.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer references -->
+  <footer>
+    <div class="footer-left">
+      Key References: [1] Jaccard Set Overlaps for Compatibility. [2] Vite Compilation Assets. [3] Vercel Serverless Architecture.
+    </div>
+    <div class="footer-right">
+      Dept. of CSE (Artificial Intelligence), MIT Mysore | Exhibition Poster
+    </div>
+  </footer>
+
+</body>
+</html>
