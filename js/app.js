@@ -1167,6 +1167,29 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('hashchange', routeByHash);
 });
 
+// Animate compatibility breakdown progress bars
+function animateProgressBar(fillId, valId, targetValue) {
+  const fillEl = document.getElementById(fillId);
+  const valEl = document.getElementById(valId);
+  if (!fillEl || !valEl) return;
+
+  let currentValue = 0;
+  fillEl.style.width = '0%';
+  valEl.textContent = '0%';
+
+  const interval = setInterval(() => {
+    if (currentValue >= targetValue) {
+      clearInterval(interval);
+      fillEl.style.width = `${targetValue}%`;
+      valEl.textContent = `${targetValue}%`;
+    } else {
+      currentValue++;
+      fillEl.style.width = `${currentValue}%`;
+      valEl.textContent = `${currentValue}%`;
+    }
+  }, 8);
+}
+
 // Expose navigation functions globally for HTML onclick handlers
 window.showView = showView;
 window.enterApp = enterApp;
@@ -1174,4 +1197,6 @@ window.handleRegistrationSubmit = handleRegistrationSubmit;
 window.handlePreferencesSubmit = handlePreferencesSubmit;
 window.openDatabaseViewModal = openDatabaseViewModal;
 window.closeDatabaseViewModal = closeDatabaseViewModal;
+window.animateProgressBar = animateProgressBar;
+
 
